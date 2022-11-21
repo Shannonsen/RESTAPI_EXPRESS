@@ -5,7 +5,7 @@ app.use(require("./api/profesores"))
 app.use(require("./api/alumnos"))
 
 app.listen(8080, () => {
-    console.log('El servidor está inicializando en el puerto 8080')
+    console.log('El servidor está iniciando')
 })
 
 app.get('/', (req, res) => {
@@ -17,7 +17,7 @@ app.get('/', (req, res) => {
     res.send(respuesta)
 })
 
-app.use(function (req, res, next) {
+app.use(function (req, res) {
     respuesta = {
         mensaje: 'URL no encontrada'
     }
