@@ -28,7 +28,7 @@ app.post('/profesores/', (req, res) => {
             'id': req.body.id,
             'numeroEmpleado': req.body.numeroEmpleado,
             'nombres': req.body.nombres,
-            'apellidos': req.body.apelidos,
+            'apellidos': req.body.apellidos,
             'horasClase': req.body.horasClase
         }
         profesores.push(Profesor)

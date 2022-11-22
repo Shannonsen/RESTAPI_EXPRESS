@@ -28,7 +28,7 @@ app.post('/alumnos/', (req, res) => {
         Alumno = {
             'id': req.body.id,
             'nombres': req.body.nombres,
-            'apellidos': req.body.apelidos,
+            'apellidos': req.body.apellidos,
             'matricula': req.body.matricula,
             'promedio': req.body.promedio
         }
@@ -45,7 +45,9 @@ app.put('/alumnos/:id', (req, res) => {
         alumnos = alumnos.map((alumno) => {
             if (alumno.id == req.params.id) {
                 alumno.nombres = req.body.nombres
+                alumno.apellidos = req.body.apellidos
                 alumno.matricula = req.body.matricula
+                alumno.promedio = req.body.promedio
                 existeAlumno = true
             }
             return alumno
