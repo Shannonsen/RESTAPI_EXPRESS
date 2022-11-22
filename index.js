@@ -10,9 +10,7 @@ app.listen(8080, () => {
 
 app.get('/', (req, res) => {
     respuesta = {
-        error: false,
-        codigo: 200,
-        mensaje: 'Punto de inicio'
+        mensaje: 'Home'
     }
     res.send(respuesta)
 })
