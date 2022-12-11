@@ -1,9 +1,9 @@
 {
   "development": {
-    "username": "root",
-    "password": null,
-    "database": "proyecto_aws",
-    "host": "127.0.0.1",
+    "username": "admin",
+    "password": "root1234",
+    "database": "database-1",
+    "host": "database-1.cimn3lozgsfh.us-east-1.rds.amazonaws.com",
     "dialect": "mysql"
   },
   "test": {
