@@ -1,7 +1,7 @@
 const { Router } = require('express')
 const app = Router();
 
-let alumnos = []
+/* let alumnos = []
 
 let Alumno = {
     id: '',
@@ -9,40 +9,81 @@ let Alumno = {
     apellidos: '',
     matricula: '',
     promedio: ''
-}
+} */
+
+const {alumnos} = require ("../models");
 
 app.get('/alumnos/', (req, res) => {
-    res.status(200).send(alumnos)
+    alumnos.findAll().then((users) =>{
+        res.status(200).send(users);
+    });
 })
 
 app.get('/alumnos/:id', (req, res) => {
-    let Alumno = alumnos.find(alumno => alumno.id == req.params.id)
+
+    alumnos.findOne({where: {id: req.params.id}}).then((user) => {
+        if (!user) {
+            res.status(404).json({error: 'alumno no encontrado'});
+        } else {
+            res.status(200).send(user)
+        } 
+    });
+
+/*     let Alumno = alumnos.find(alumno => alumno.id == req.params.id)
     if (Alumno == null) {
         res.sendStatus(404)
     }
-    res.status(200).send(Alumno)
+    res.status(200).send(Alumno) */
 })
 
 app.post('/alumnos/', (req, res) => {
-    if (!isNaN(req.body.id) && validarTexto(req.body.nombres) && validarTexto(req.body.apellidos) && validarMatrícula(req.body.matricula) && !isNaN(req.body.promedio) && validarPromedio(req.body.promedio)) {
-        Alumno = {
+    if (validarTexto(req.body.nombres) && validarTexto(req.body.apellidos) && validarMatrícula(req.body.matricula) && !isNaN(req.body.promedio) && validarPromedio(req.body.promedio)) {
+       /*  Alumno = {
             'id': req.body.id,
             'nombres': req.body.nombres,
             'apellidos': req.body.apellidos,
             'matricula': req.body.matricula,
             'promedio': req.body.promedio
         }
-        alumnos.push(Alumno)
-        res.status(201).send(alumnos)
+        alumnos.push(Alumno) */
+        alumnos.create({
+            nombres : req.body.nombres,
+            apellidos: req.body.apellidos,
+            matricula: req.body.matricula,
+            promedio: req.body.promedio,
+            fotoPerfilUrl: req.body.fotoPerfilUrl,
+        }).then((alumnos) =>{
+            res.status(201).send(alumnos)
+        })
     } else {
         res.status(400).json({error: 'datos invalidos'})
     }
 })
 
 app.put('/alumnos/:id', (req, res) => {
-    if (!isNaN(req.body.id) && validarTexto(req.body.nombres) && validarTexto(req.body.apellidos) && validarMatrícula(req.body.matricula) && !isNaN(req.body.promedio) && validarPromedio(req.body.promedio)) {
-        let existeAlumno = false
-        alumnos = alumnos.map((alumno) => {
+    if (validarTexto(req.body.nombres) && validarTexto(req.body.apellidos) && validarMatrícula(req.body.matricula) && !isNaN(req.body.promedio) && validarPromedio(req.body.promedio)) {
+       /*  let existeAlumno = false
+ */
+    alumnos.findOne({where: {id: req.params.id}}).then((user) => {
+        if (!user) {
+            res.status(404).json({error: 'alumno no encontrado'});
+        } else {
+            user.update(
+                {
+                    nombres : req.body.nombres,
+                    apellidos: req.body.apellidos,
+                    matricula: req.body.matricula,
+                    promedio: req.body.promedio,
+                    fotoPerfilUrl: req.body.fotoPerfilUrl,
+                }
+            ).then(() =>{
+                res.status(200).send(user)
+            });
+        } 
+    });
+    
+
+        /* alumnos = alumnos.map((alumno) => {
             if (alumno.id == req.params.id) {
                 alumno.nombres = req.body.nombres
                 alumno.apellidos = req.body.apellidos
@@ -52,11 +93,12 @@ app.put('/alumnos/:id', (req, res) => {
             }
             return alumno
         })
+
         if (!existeAlumno) {
             res.sendStatus(404)
         } else {
-            res.status(200).send(alumnos)
-        }
+            res.status(200).send(alumnoModificado)
+        } */
     } else {
         res.status(400).json({error: 'datos invalidos'})
     }
@@ -64,7 +106,18 @@ app.put('/alumnos/:id', (req, res) => {
 })
 
 app.delete('/alumnos/:id', (req, res) => {
-    const tamanoAlumnos = alumnos.length
+
+    alumnos.findOne({where: {id: req.params.id}}).then((user) => {
+        if (!user) {
+            res.status(404).json({error: 'alumno no encontrado'});
+        } else {
+            user.destroy().then(() =>{
+                res.status(200).send(user)
+            });
+        } 
+    });
+
+/*     const tamanoAlumnos = alumnos.length
     alumnos = alumnos.filter((alumno) => {
         return alumno.id != req.params.id ? alumno : null
     })
@@ -72,7 +125,7 @@ app.delete('/alumnos/:id', (req, res) => {
         res.sendStatus(404)
     } else {
         res.sendStatus(200)
-    }
+    } */
 })
 
 app.delete('/alumnos', (req, res) => {

@@ -4,8 +4,21 @@ app.use(express.json())
 app.use(require("./api/profesores"))
 app.use(require("./api/alumnos"))
 
-app.listen(8080, () => {
-    console.log('El servidor está iniciando')
+/* const mysql = require ("mysql"); */
+
+/* const db = mysql.createConnection({
+    user: "",
+    host: "",
+    password: "",
+    database: "",
+}); */
+
+const db = require("./models");
+
+db.sequelize.sync().then((req) => {
+    app.listen(8080, () => {
+        console.log('El servidor está iniciando')
+    })    
 })
 
 app.get('/', (req, res) => {
