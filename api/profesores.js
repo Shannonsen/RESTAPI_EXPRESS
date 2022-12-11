@@ -124,7 +124,7 @@ app.delete('/profesores/:id', (req, res) => {
 })
 
 app.delete('/profesores', (req, res) => {
-    res.status(405).send(profesores)
+    res.sendStatus(405)
 })
 
 function validarHoras(data) {

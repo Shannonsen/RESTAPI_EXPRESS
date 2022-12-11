@@ -129,7 +129,7 @@ app.delete('/alumnos/:id', (req, res) => {
 })
 
 app.delete('/alumnos', (req, res) => {
-    res.status(405).send(alumnos)
+    res.sendStatus(405)
 })
 
 function validarTexto(data) {
